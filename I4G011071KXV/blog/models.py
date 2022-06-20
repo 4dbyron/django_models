@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
 
 
 # Title : A string of maxlength 200, use Django’s models.CharField
@@ -18,11 +19,11 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now=True)
-    published_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    published_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        ordering = ['-created_date']
+        ordering = ['-published_date']
 
     def __str__(self):
         return self.title
